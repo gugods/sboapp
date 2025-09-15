@@ -1,0 +1,19 @@
+// ./libraries/graphql/get_stock_in_search.graphql.js
+import gql from 'graphql-tag';
+
+const GET_STOCK_IN_SEARCH = gql`
+  query GET_STOCK_IN_SEARCH($branchs_id: Int!, $stock_date: String!) {
+    getStockInSearch(branchs_id: $branchs_id, stock_date: $stock_date) {
+      data {
+        products_id
+        product_name
+        product_code
+        stock_amount
+      }
+      status
+      error
+    }
+  }
+`;
+
+export default GET_STOCK_IN_SEARCH;

@@ -1,0 +1,25 @@
+// src/components/index.js
+export * from './Button';
+export * from './Loading';
+export * from './Spinner';
+export * from './Input';
+export * from './ListRow';
+export * from './CardRow';
+export * from './Card';
+export * from './Alert';
+export * from './Label';
+export * from './InputNum';
+export * from './IconStock';
+export * from './InputSearch';
+export * from './IconStatus';
+export * from './InputDate';
+export * from './InputDateText';
+export * from './BtnQrcode';
+export { default as Table } from './Table';
+export { default as InputArea } from './InputArea';
+export { default as ShowItem } from './ShowItem';
+export { default as InputProduct } from './InputProduct';
+export { default as InputMonth } from './InputMonth';
+export { default as SideMenu } from './SideMenu';
+export { default as BadgeNumber } from './BadgeNumber';
+export { default as Dialog } from './Dialog';

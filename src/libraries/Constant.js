@@ -1,0 +1,12 @@
+export const OVER_ZERO = 'OVER_ZERO';
+export const NOT_ZERO = 'NOT_ZERO';
+
+export const STATUS_COMPLETED = 'STATUS_COMPLETED';
+export const STATUS_PENDING_SALES = 'STATUS_PENDING_SALES';
+export const STATUS_PENDING_STORE = 'STATUS_PENDING_STORE';
+export const STATUS_PENDING = 'STATUS_PENDING';
+
+export const COMPLETED = 'COMPLETED';
+export const PENDING_SALES = 'PENDING_SALES';
+export const PENDING_STORE = 'PENDING_STORE';
+export const PENDING = 'PENDING';
