@@ -186,7 +186,7 @@ class StockProduct extends Component {
       return (
         <React.Fragment>
           <Table.Full style={styles.productStyle} textStyle={{ fontWeight: '500', color: GLOBALS.COLOR_DESC }}>
-            <Icon name='filing' size={18} /> {t('TEXT_PRODUCT')} {product_name}
+            <Icon name='reader' size={18} /> {t('TEXT_PRODUCT')} {product_name}
           </Table.Full>
           <Table.Full style={styles.fullStyle} textStyle={{ fontWeight: '500' }}>
             <Icon name='ios-search' size={20} /> {t('ALERT_NODATA_PRODUCT')} {'\n'}{' '}

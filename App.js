@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navigator from './src/libraries/Navigator';
 import Notification from './src/libraries/Firebase/Notification';
 import React, { useEffect, useState } from 'react';
-// import SplashScreen from 'react-native-splash-screen';
+import { hideSplash, showSplash } from 'react-native-splash-view';
 import { ApolloProvider } from 'react-apollo';
 import { client } from './src/libraries/withApollo';
 import { DialogProvider, NotificationProvider, UserProvider } from './src/libraries/StoreContext';
@@ -18,6 +18,7 @@ import './src/i18n';
 Icon.loadFont();
 FontAwesome.loadFont();
 LogBox.ignoreAllLogs();
+showSplash();
 
 export let reloadScreen;
 
@@ -36,7 +37,7 @@ function App() {
       }
       i18next.changeLanguage(locale.toLowerCase());
       reloadScreen = setLoading;
-      //SplashScreen.hide();
+      hideSplash();
       setLoading(false);
     };
 

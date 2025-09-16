@@ -1,45 +1,43 @@
 // src/pages/Screen/Camera.js
 import GLOBALS from '../../Globals';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary } from 'react-native-image-picker';
-
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Camera as CameraKit, CameraType } from 'react-native-camera-kit';
+import { Camera as VisionCamera, useCameraPermission, useCameraDevice, useCameraFormat } from 'react-native-vision-camera';
 
-const FlashMode = { ON: 'on', OFF: 'off', AUTO: 'auto' };
+const FlashMode = { ON: 'on', OFF: 'off' };
 
-export class Camera extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.camera;
-    const { navigation } = this.props;
-    this.state = {
-      flashMode: FlashMode.OFF,
-      stockList: { loading: true, data: {} },
-      item_index: navigation.getParam('item_index'),
-      loading: false,
-      allow_gallery: navigation.getParam('allow_gallery'),
-    };
-  }
+export const Camera = (props) => {
+  const { navigation } = props;
+  const { t } = useTranslation();
 
-  takePicture = async () => {
-    if (this.camera) {
-      this.setState({ loading: true });
+  const camera = useRef();
+  const item_index = navigation.getParam('item_index');
+  const allow_gallery = navigation.getParam('allow_gallery');
+
+  const [flashMode, setFlashMode] = useState(FlashMode.OFF);
+  const [loading, setLoading] = useState(false);
+
+  const device = useCameraDevice('back');
+  const { hasPermission } = useCameraPermission();
+  const format = useCameraFormat(device, [{ photoResolution: { width: 1280, height: 720 } }]);
+
+  const takePicture = async () => {
+    if (camera?.current) {
+      setLoading(true);
       // const options = { width: 600, quality: 1, base64: false };
-      const data = await this.camera.capture();
-      this.setState({ loading: false });
+      const data = await camera.current.takePhoto();
+      setLoading(false);
 
-      const { item_index } = this.state;
-      this.props.navigation.state.params.onBackCamera({ item_file: data.uri, item_index });
-      this.props.navigation.goBack();
+      navigation.state.params.onBackCamera({ item_file: 'file://' + data.path, item_index });
+      navigation.goBack();
     }
   };
 
-  takeImagePicker = async () => {
-    const { t } = this.props;
+  const takeImagePicker = async () => {
     const options = {
       // title: t('TEXT_TITLE_CHOOSE_IMAGE'),
       // takePhotoButtonTitle: null,
@@ -53,6 +51,7 @@ export class Camera extends PureComponent {
       // },
       // tintColor: GLOBALS.COLOR_MAIN,
     };
+
     launchImageLibrary(options, (response) => {
       // console.log('Response = ', response);
       if (response.didCancel) {
@@ -60,66 +59,50 @@ export class Camera extends PureComponent {
       } else if (response.error) {
         Alert('ImagePicker Error: ', response.error);
       } else {
-        const { item_index } = this.state;
-        this.props.navigation.state.params.onBackCamera({ item_file: response.assets[0].uri, item_index });
-        this.props.navigation.goBack();
+        navigation.state.params.onBackCamera({ item_file: response.assets[0].uri, item_index });
+        navigation.goBack();
       }
     });
   };
 
-  onTurnFlash = async () => {
-    const { t } = this.props;
-    const { flashMode } = this.state;
+  const onTurnFlash = async () => {
     try {
       if (flashMode === FlashMode.OFF) {
-        this.setState({ flashMode: FlashMode.ON });
+        setFlashMode(FlashMode.ON);
       } else {
-        this.setState({ flashMode: FlashMode.OFF });
+        setFlashMode(FlashMode.OFF);
       }
     } catch (e) {
       Alert.alert(t('ALERT_ERROR'), t('ALERT_FLASH_MODE'));
     }
   };
 
-  render() {
-    const { allow_gallery } = this.state;
-    return (
-      <View style={styles.container}>
-        {/* <TouchableOpacity onPress={this.onTurnFlash.bind(this)} style={styles.buttonFlash}>
-          <Icon name='flash' size={25} style={{ color: '#ffffff' }} />
-        </TouchableOpacity> */}
-        <CameraKit
-          ref={(ref) => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={CameraType.back}
-          flashMode={this.state.flashMode}
-          // androidCameraPermissionOptions={{
-          //   title: 'Permission to use camera',
-          //   message: 'We need your permission to use your camera',
-          //   buttonPositive: 'Ok',
-          //   buttonNegative: 'Cancel',
-          // }}
-        />
-        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <View style={styles.buttonStyle}>
-            {this.state.loading ? (
-              <ActivityIndicator size='small' style={styles.captureStyle} color={GLOBALS.COLOR_MAIN} />
-            ) : (
-              <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureStyle} />
-            )}
-          </View>
-          {allow_gallery && (
-            <TouchableOpacity onPress={this.takeImagePicker.bind(this)} style={styles.buttonImage}>
-              <Icon name='images' size={35} style={{ color: '#ffffff' }} />
-            </TouchableOpacity>
+  if (!hasPermission) return <View style={styles.container}></View>;
+  if (device == null) return <View style={styles.container}></View>;
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={onTurnFlash} style={styles.buttonFlash}>
+        <Icon name='flash' size={25} style={{ color: '#ffffff' }} />
+      </TouchableOpacity>
+      <VisionCamera ref={camera} style={StyleSheet.absoluteFill} device={device} isActive={true} photo={true} format={format} torch={flashMode} />
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={styles.buttonStyle}>
+          {loading ? (
+            <ActivityIndicator size='small' style={styles.captureStyle} color={GLOBALS.COLOR_MAIN} />
+          ) : (
+            <TouchableOpacity onPress={takePicture} style={styles.captureStyle} />
           )}
         </View>
+        {allow_gallery && (
+          <TouchableOpacity onPress={takeImagePicker} style={styles.buttonImage}>
+            <Icon name='images' size={35} style={{ color: '#ffffff' }} />
+          </TouchableOpacity>
+        )}
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -133,7 +116,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonStyle: {
-    flex: 0,
+    position: 'absolute',
+    bottom: 15,
     alignSelf: 'center',
     margin: 20,
     backgroundColor: GLOBALS.COLOR_BLACK,
@@ -183,4 +167,4 @@ Camera.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default withTranslation()(Camera);
+export default Camera;
