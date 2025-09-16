@@ -1,10 +1,10 @@
 // src/components/DialogBox.js
-import Dialog, { DialogButton, DialogContent, DialogFooter, DialogTitle, ScaleAnimation } from 'react-native-popup-dialog';
+import Dialog from 'react-native-dialog';
 import GLOBALS from '../Globals';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Linking, Platform, StyleSheet, Text } from 'react-native';
+import { Linking, Platform, StyleSheet, Text, View } from 'react-native';
 import { withDialog } from '../libraries';
 
 class DialogBox extends React.Component {
@@ -42,90 +42,91 @@ class DialogBox extends React.Component {
     const { dialogStore } = this.props;
     if (dialogStore.format === 'CONFIRM' || dialogStore.format === 'CONFIRM_SUCCESS' || dialogStore.format === 'CONFIRM_ERROR') {
       return (
-        <DialogFooter style={{ flexDirection: 'row' }}>
-          <DialogButton style={styles.buttonStyle} textStyle={styles.buttonTextCancel} text={t('BUTTON_CANCEL')} onPress={() => this.hide()} />
-          <DialogButton style={styles.buttonStyle} textStyle={styles.buttonTextSuccess} text={t('BUTTON_OK')} onPress={() => this.handle()} />
-        </DialogFooter>
+        <View style={{ ...styles.footerStyle }}>
+          <Dialog.Button style={{ ...styles.buttonStyle, ...styles.buttonTextCancel }} label={t('BUTTON_CANCEL')} onPress={() => this.hide()} />
+          <Dialog.Button style={{ ...styles.buttonStyle, ...styles.buttonTextSuccess }} label={t('BUTTON_OK')} onPress={() => this.handle()} />
+        </View>
       );
     } else if (dialogStore.format === 'SUCCESS') {
       return (
-        <DialogFooter style={{ flexDirection: 'row' }}>
-          <DialogButton style={styles.buttonStyle} textStyle={styles.buttonTextSuccess} text={t('BUTTON_OK')} onPress={() => this.handle()} />
-          <DialogButton
-            style={[styles.buttonStyle, { display: 'none' }]}
-            textStyle={styles.buttonTextSuccess}
-            text={t('BUTTON_OK')}
+        <View style={{ ...styles.footerStyle }}>
+          <Dialog.Button
+            color={styles.buttonTextError.color}
+            style={{ ...styles.buttonStyle, ...styles.buttonTextSuccess }}
+            label={t('BUTTON_OK')}
             onPress={() => this.handle()}
           />
-        </DialogFooter>
+        </View>
       );
     } else if (dialogStore.format === 'ERROR') {
       return (
-        <DialogFooter style={{ flexDirection: 'row' }}>
-          <DialogButton style={styles.buttonStyle} textStyle={styles.buttonTextError} text={t('BUTTON_OK')} onPress={() => this.handle()} />
-          <DialogButton
-            style={[styles.buttonStyle, { display: 'none' }]}
-            textStyle={styles.buttonTextSuccess}
-            text={t('BUTTON_OK')}
-            onPress={() => this.handle()}
-          />
-        </DialogFooter>
+        <View style={{ ...styles.footerStyle }}>
+          <Dialog.Button style={{ ...styles.buttonStyle, ...styles.buttonTextError }} label={t('BUTTON_OK')} onPress={() => this.hide()} />
+        </View>
       );
     } else {
       return (
-        <DialogFooter style={{ flexDirection: 'row' }}>
-          <DialogButton style={styles.buttonStyle} textStyle={styles.buttonTextSuccess} text={t('BUTTON_OK')} onPress={() => this.handle()} />
-          <DialogButton
-            style={[styles.buttonStyle, { display: 'none' }]}
-            textStyle={styles.buttonTextSuccess}
-            text={t('BUTTON_OK')}
-            onPress={() => this.handle()}
-          />
-        </DialogFooter>
+        <View style={{ ...styles.footerStyle }}>
+          <Dialog.Button color={styles.buttonTextError.color} style={{ ...styles.buttonStyle }} label={t('BUTTON_OK')} onPress={() => this.handle()} />
+        </View>
       );
     }
   };
   renderTitle() {
     const { dialogStore } = this.props;
     if (dialogStore.format === 'SUCCESS') {
-      return <DialogTitle title={dialogStore.title} style={styles.titleSuccess} textStyle={styles.titleTextStyle} />;
+      return <Dialog.Title style={{ ...styles.titleTextStyle, ...styles.titleSuccess }}>{dialogStore.title}</Dialog.Title>;
     } else if (dialogStore.format === 'ERROR') {
-      return <DialogTitle title={dialogStore.title} style={styles.titleError} textStyle={styles.titleTextStyle} />;
+      return <Dialog.Title style={{ ...styles.titleTextStyle, ...styles.titleError }}>{dialogStore.title}</Dialog.Title>;
     } else if (dialogStore.format === 'CONFIRM_SUCCESS') {
-      return <DialogTitle title={dialogStore.title} style={styles.titleSuccess} textStyle={styles.titleTextStyle} />;
+      return <Dialog.Title style={{ ...styles.titleTextStyle, ...styles.titleSuccess }}>{dialogStore.title}</Dialog.Title>;
     } else if (dialogStore.format === 'CONFIRM_ERROR') {
-      return <DialogTitle title={dialogStore.title} style={styles.titleError} textStyle={styles.titleTextStyle} />;
+      return <Dialog.Title style={{ ...styles.titleTextStyle, ...styles.titleError }}>{dialogStore.title}</Dialog.Title>;
     } else {
-      return <DialogTitle title={dialogStore.title} style={styles.titleStyle} textStyle={styles.titleTextStyle} />;
+      return <Dialog.Title style={{ ...styles.titleTextStyle, ...styles.titleStyle }}>{dialogStore.title}</Dialog.Title>;
     }
   }
 
   render() {
     const { dialogStore } = this.props;
     return (
-      <Dialog
-        width={0.8}
-        dialogStyle={this.container}
-        visible={dialogStore.visible}
-        dialogTitle={this.renderTitle()}
-        dialogAnimation={
-          new ScaleAnimation({
-            toValue: 0, // optional
-            useNativeDriver: true, // optional
-          })
-        }
-        footer={this.renderButton()}
-      >
-        <DialogContent>
-          <Text style={styles.contentStyle}>{dialogStore.message}</Text>
-        </DialogContent>
-      </Dialog>
+      <View>
+        <Dialog.Container
+          headerStyle={styles.headerStyle}
+          contentStyle={styles.contentStyle}
+          visible={dialogStore.visible}
+          useNativeDriver={true}
+
+          // dialogAnimation={
+          //   new ScaleAnimation({
+          //     toValue: 0, // optional
+          //     useNativeDriver: true, // optional
+          //   })
+          // }
+        >
+          {this.renderTitle()}
+          <Dialog.Description style={{ ...styles.descStyle }}>
+            <Text style={styles.descTextStyle}>{dialogStore.message}</Text>
+          </Dialog.Description>
+          {this.renderButton()}
+        </Dialog.Container>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  contentStyle: {
+    padding: 0,
+    borderRadius: 6,
+  },
+  headerStyle: {
+    margin: 0,
+  },
+  descStyle: {
+    paddingHorizontal: 12,
+    paddingBottom: 24,
+  },
   titleStyle: {
     backgroundColor: GLOBALS.COLOR_MAIN,
   },
@@ -136,40 +137,48 @@ const styles = StyleSheet.create({
     backgroundColor: GLOBALS.COLOR_MAIN,
   },
   titleTextStyle: {
-    color: GLOBALS.COLOR_WHITE,
+    padding: 12,
     fontSize: 18,
+    textAlign: 'center',
     fontFamily: GLOBALS.FONT_NAME,
+    fontWeight: GLOBALS.FONT_BOLD,
+    color: GLOBALS.COLOR_WHITE,
   },
-  contentStyle: {
+  descTextStyle: {
     padding: 5,
     fontSize: 14,
     fontFamily: GLOBALS.FONT_NAME,
     color: GLOBALS.COLOR_DESC,
   },
-  buttonStyle: {
+  footerStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderTopWidth: 1,
     borderTopColor: GLOBALS.COLOR_GRAY,
+    paddingBottom: 6,
   },
-  buttonTextStyle: {
+  buttonStyle: {
+    paddingHorizontal: 10,
     fontSize: 18,
     fontFamily: GLOBALS.FONT_NAME,
+    fontWeight: GLOBALS.FONT_BOLD,
+    width: 150,
+  },
+  buttonTextStyle: {
     color: GLOBALS.COLOR_MAIN,
   },
   buttonTextSuccess: {
-    fontSize: 18,
-    fontFamily: GLOBALS.FONT_NAME,
     color: GLOBALS.COLOR_SUCCESS,
   },
   buttonTextError: {
-    fontSize: 18,
-    fontFamily: GLOBALS.FONT_NAME,
     color: GLOBALS.COLOR_MAIN,
   },
   buttonTextCancel: {
-    fontSize: 18,
-    fontFamily: GLOBALS.FONT_NAME,
     color: GLOBALS.COLOR_CANCEL,
     opacity: 0.7,
+    borderRightWidth: 1,
+    borderRightColor: GLOBALS.COLOR_GRAY,
   },
 });
 

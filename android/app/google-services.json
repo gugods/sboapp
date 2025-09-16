@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "390024484007",
+    "firebase_url": "https://sboplus-f70d5.firebaseio.com",
+    "project_id": "sboplus-f70d5",
+    "storage_bucket": "sboplus-f70d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390024484007:android:4cede105e2b59534",
+        "android_client_info": {
+          "package_name": "com.sboplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390024484007-ed2dju0a1n9j5utmbc0mlct06ipkn2so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn7mqy_gTlcFLZ7hfARVrpHbiSNfswZks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390024484007-ed2dju0a1n9j5utmbc0mlct06ipkn2so.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
