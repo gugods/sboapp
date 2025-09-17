@@ -1,6 +1,6 @@
 // src/libraries/Firebase/Notification.js
 import DropdownAlert from 'react-native-dropdownalert';
-import messaging from '@react-native-firebase/messaging';
+import messaging, { AuthorizationStatus } from '@react-native-firebase/messaging';
 import GLOBALS from '../../Globals';
 import React, { useEffect, useRef } from 'react';
 // import { Alert } from 'react-native';
@@ -15,7 +15,8 @@ function Notification() {
       // requestPermission
       try {
         const enabled = await messaging().hasPermission();
-        if (!enabled) {
+
+        if (enabled === AuthorizationStatus.DENIED || enabled === AuthorizationStatus.NOT_DETERMINED) {
           try {
             await messaging().requestPermission();
           } catch (error) {

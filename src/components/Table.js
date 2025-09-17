@@ -182,8 +182,8 @@ const Select = ({ placeholder, value, style, options, disabled, onValueChange })
         uniqueKey='value'
         displayKey='label'
         renderSelectText={() => (
-          <View style={{ minWidth: 50 }}>
-            <Text numberOfLines={1} style={{ fontSize: 12 }}>
+          <View style={styles.selectStyle}>
+            <Text numberOfLines={1} style={styles.selectText}>
               {label || placeholder}
             </Text>
           </View>
@@ -392,9 +392,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   selectStyle: {
-    backgroundColor: GLOBALS.COLOR_BLACK,
-    height: 20,
-    width: '100%',
+    minWidth: 50,
+  },
+  selectText: {
+    fontSize: 12,
+    color: GLOBALS.COLOR_TBODY,
   },
   oddStyle: {
     backgroundColor: GLOBALS.COLOR_WHITE,

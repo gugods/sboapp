@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>390024484007-ggrsqq13v9d3g38jv6d9cn1r6u0923or.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.390024484007-ggrsqq13v9d3g38jv6d9cn1r6u0923or</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAIVob9_0qFoMPrQTT0mgOC_Zb-_moB9DY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>390024484007</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sboplus.app</string>
+	<key>PROJECT_ID</key>
+	<string>sboplus-f70d5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sboplus-f70d5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:390024484007:ios:f5607ea94c0c7191303782</string>
+	<key>DATABASE_URL</key>
+	<string>https://sboplus-f70d5.firebaseio.com</string>
+</dict>
+</plist>
