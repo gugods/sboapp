@@ -183,4 +183,6 @@ export const translation = {
   TEXT_MENU_TIME_MINT: 'Time Mint',
   ALERT_LINK_OUT: 'คุณต้องการเปิดเว็บไซต์',
   ALERT_CONFIRM_LINK_OUT: 'คุณยืนยันที่จะไปยังระบบ "{{name}}" ใช่หรือไม่?',
+  TEXT_SHOW: 'แสดง',
+  TEXT_HIDE: 'ซ่อน',
 };

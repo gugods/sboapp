@@ -6,8 +6,10 @@ import GLOBALS from '../Globals';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 import React from 'react';
-import RNPickerSelect from 'react-native-picker-select';
 import { ActivityIndicator, Dimensions, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import { useTranslation } from 'react-i18next';
+import { find } from 'lodash';
 
 const Title = ({ children, style, textStyle }) => (
   <View style={[styles.title, style]}>
@@ -17,13 +19,13 @@ const Title = ({ children, style, textStyle }) => (
 Title.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
-  textStyle: PropTypes.object
+  textStyle: PropTypes.object,
 };
 
 const Thead = ({ children, style }) => <View style={[styles.thead, style]}>{children}</View>;
 Thead.propTypes = {
   children: PropTypes.node.isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 const TH = ({ children, style, textStyle, numberOfLines }) => (
@@ -37,7 +39,7 @@ TH.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   textStyle: PropTypes.object,
-  numberOfLines: PropTypes.any
+  numberOfLines: PropTypes.any,
 };
 
 const SORT = ({ children, style, textStyle, numberOfLines, onPress }) => (
@@ -56,7 +58,7 @@ TH.propTypes = {
   style: PropTypes.object,
   textStyle: PropTypes.object,
   numberOfLines: PropTypes.any,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
 };
 
 const Tbody = ({ children, style, renderComponent, rowColor }) => {
@@ -75,7 +77,7 @@ Tbody.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   renderComponent: PropTypes.func,
-  rowColor: PropTypes.number
+  rowColor: PropTypes.number,
 };
 
 const TD = ({ children, style, textStyle }) => (
@@ -86,13 +88,13 @@ const TD = ({ children, style, textStyle }) => (
 TD.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
-  textStyle: PropTypes.object
+  textStyle: PropTypes.object,
 };
 
 const Component = ({ children, style }) => <View style={[styles.td, style]}>{children}</View>;
 Component.propTypes = {
   children: PropTypes.node.isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 const Link = ({ children, style, textStyle, onPress, disabled }) => (
@@ -105,7 +107,7 @@ Link.propTypes = {
   style: PropTypes.object,
   textStyle: PropTypes.object,
   onPress: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 const Full = ({ children, style, textStyle }) => (
@@ -116,7 +118,7 @@ const Full = ({ children, style, textStyle }) => (
 Full.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
-  textStyle: PropTypes.object
+  textStyle: PropTypes.object,
 };
 
 const Loading = () => <ActivityIndicator style={{ marginVertical: 20 }} size='small' color='#cccccc' />;
@@ -149,7 +151,7 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   style: PropTypes.object,
   inputStyle: PropTypes.object,
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
 };
 
 const Checkbox = ({ label, checked, onChange, style, chekcboxStyle, disabled }) => {
@@ -167,37 +169,46 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   style: PropTypes.object,
   chekcboxStyle: PropTypes.object,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
-const Select = ({ placeholder, value, style, options, disabled, onValueChange }) => (
-  <View style={[styles.td, style]}>
-    {Platform.OS === 'ios' ? (
-      <RNPickerSelect
-        hideIcon={true}
-        disabled={disabled}
-        placeholder={{ label: placeholder }}
-        placeholderTextColor={GLOBALS.COLOR_DESC}
-        value={value}
+const Select = ({ placeholder, value, style, options, disabled, onValueChange }) => {
+  const { t } = useTranslation();
+  const label = find(options, { value })?.label;
+  return (
+    <View style={[styles.td, style]}>
+      <SectionedMultiSelect
         items={options}
-        Icon={() => <Icon name='caret-down' color={GLOBALS.COLOR_THEAD} size={16} />}
-        style={{ ...pickerSelectStyles }}
-        onValueChange={onValueChange}
-      />
-    ) : (
-      <RNPickerSelect
-        hideIcon={true}
+        uniqueKey='value'
+        displayKey='label'
+        renderSelectText={() => (
+          <View style={{ minWidth: 50 }}>
+            <Text numberOfLines={1} style={{ fontSize: 12 }}>
+              {label || placeholder}
+            </Text>
+          </View>
+        )}
+        showDropDowns={true}
+        single={true}
+        onSelectedItemsChange={(selectedItems) => {
+          onValueChange(selectedItems[0]);
+        }}
+        onCancel={() => {
+          onValueChange('');
+        }}
+        selectedItems={[value]}
+        hideConfirm={false}
+        confirmText={t('BUTTON_CLOSE')}
+        searchPlaceholderText={placeholder}
+        styles={selectStyle}
+        colors={selectColor}
+        IconRenderer={Icon}
+        icons={GLOBALS.ICONS}
         disabled={disabled}
-        placeholder={{ label: placeholder }}
-        placeholderTextColor={GLOBALS.COLOR_DESC}
-        value={value}
-        items={options}
-        style={{ ...pickerSelectStyles, placeholder: { ontSize: 12 } }}
-        onValueChange={onValueChange}
       />
-    )}
-  </View>
-);
+    </View>
+  );
+};
 
 Select.propTypes = {
   value: PropTypes.string,
@@ -205,7 +216,7 @@ Select.propTypes = {
   style: PropTypes.object,
   options: PropTypes.array,
   disabled: PropTypes.bool,
-  onValueChange: PropTypes.func
+  onValueChange: PropTypes.func,
 };
 
 const Added = ({ style, textStyle, onPress, disabled, counter }) => (
@@ -220,7 +231,7 @@ Added.propTypes = {
   textStyle: PropTypes.object,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-  counter: PropTypes.any
+  counter: PropTypes.any,
 };
 
 const Counter = ({ style, textStyle, counter }) => (
@@ -230,7 +241,7 @@ const Counter = ({ style, textStyle, counter }) => (
 Counter.propTypes = {
   style: PropTypes.object,
   textStyle: PropTypes.object,
-  counter: PropTypes.any
+  counter: PropTypes.any,
 };
 
 const Deleted = ({ style, onPress, disabled }) => (
@@ -242,7 +253,7 @@ const Deleted = ({ style, onPress, disabled }) => (
 Deleted.propTypes = {
   style: PropTypes.object,
   onPress: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 const Button = ({ children, style, onPress, disabled }) => (
@@ -255,7 +266,7 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   onPress: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 class Table extends React.Component {
@@ -286,80 +297,80 @@ class Table extends React.Component {
 const styles = StyleSheet.create({
   table: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   title: {
     paddingVertical: 20,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   txtTitle: {
     color: GLOBALS.COLOR_MAIN,
     fontSize: 20,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   thead: {
     flexDirection: 'row',
     borderBottomColor: GLOBALS.COLOR_GRAY2,
     borderBottomWidth: 1,
     borderTopColor: GLOBALS.COLOR_GRAY2,
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
   th: {
     paddingVertical: 5,
     paddingHorizontal: 5,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   sort: {
     paddingVertical: 5,
     paddingHorizontal: 5,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   txtSort: {
     color: GLOBALS.COLOR_MAIN,
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   iconSort: {
     position: 'absolute',
     right: -10,
-    top: 4
+    top: 4,
   },
   txtTh: {
     color: GLOBALS.COLOR_THEAD,
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   tbody: {
     borderBottomColor: GLOBALS.COLOR_GRAY,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   td: {
     paddingVertical: 5,
     paddingHorizontal: 2,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   txtTd: {
     color: GLOBALS.COLOR_TBODY,
-    fontSize: 14
+    fontSize: 14,
   },
   txtRemark: {
     color: GLOBALS.COLOR_CANCEL,
-    fontSize: 12
+    fontSize: 12,
   },
   txtLink: {
     color: GLOBALS.COLOR_MAIN,
-    fontSize: 14
+    fontSize: 14,
   },
   full: {
     paddingVertical: 20,
     paddingHorizontal: 10,
     justifyContent: 'center',
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   txtFull: {
     color: GLOBALS.COLOR_MAIN,
-    fontSize: 14
+    fontSize: 14,
   },
   inputStyle: {
     fontFamily: GLOBALS.FONT_NAME,
@@ -370,26 +381,26 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     paddingHorizontal: 1,
     borderColor: GLOBALS.COLOR_GRAY2,
-    width: '100%'
+    width: '100%',
   },
   chekcboxStyle: {
     marginTop: 10,
     width: 20,
-    height: 20
+    height: 20,
   },
   selectInput: {
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   selectStyle: {
     backgroundColor: GLOBALS.COLOR_BLACK,
     height: 20,
-    width: '100%'
+    width: '100%',
   },
   oddStyle: {
-    backgroundColor: GLOBALS.COLOR_WHITE
+    backgroundColor: GLOBALS.COLOR_WHITE,
   },
   evenStyle: {
-    backgroundColor: '#fafafa'
+    backgroundColor: '#fafafa',
   },
   btnAdd: {
     flexDirection: 'row',
@@ -397,46 +408,57 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   counterAddStyle: {
     position: 'relative',
     top: -7,
     marginRight: 5,
     fontSize: 14,
-    color: GLOBALS.COLOR_REMARK
+    color: GLOBALS.COLOR_REMARK,
   },
   counterStyle: {
     position: 'relative',
     top: -7,
     right: -11,
     fontSize: 14,
-    color: GLOBALS.COLOR_REMARK
-  }
+    color: GLOBALS.COLOR_REMARK,
+  },
 });
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    color: GLOBALS.COLOR_DESC,
-    fontSize: 12,
-    width: 120
+const selectStyle = {
+  selectToggle: {
+    borderWidth: 0,
   },
-  inputAndroid: {
-    color: GLOBALS.COLOR_DESC,
-    width: 120,
-    fontSize: 12
+  selectToggleText: {
+    fontSize: 14,
+    color: GLOBALS.COLOR_MAIN,
   },
-  placeholder: { color: GLOBALS.COLOR_DESC, fontSize: 12 },
-  underline: { borderTopWidth: 0 },
-  iconContainer: {
-    top: 0,
-    right: 15
-  }
-});
+  button: {
+    backgroundColor: GLOBALS.COLOR_MAIN,
+  },
+  confirmText: {
+    fontWeight: '100',
+  },
+  itemText: {
+    fontSize: 14,
+    fontWeight: '100',
+    paddingVertical: 5,
+    color: GLOBALS.COLOR_DESC,
+  },
+  cancelButton: {
+    backgroundColor: GLOBALS.COLOR_MAIN,
+  },
+};
+
+const selectColor = {
+  success: GLOBALS.COLOR_MAIN,
+  text: GLOBALS.COLOR_DESC,
+};
 
 Table.propTypes = {
   children: PropTypes.node.isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default Table;

@@ -56,7 +56,7 @@ class SideMenu extends Component {
     } else {
       Orientation.lockToPortrait();
       const navigateAction = NavigationActions.navigate({
-        routeName: value.route,
+        routeName: value?.route || 'Home',
       });
 
       userStore.setShowMenu(false);
@@ -169,6 +169,7 @@ const styles = {
   container: {
     backgroundColor: GLOBALS.COLOR_WHITE,
     flex: 1,
+    paddingBottom: 20,
   },
   sectionHeading: {
     height: 100,

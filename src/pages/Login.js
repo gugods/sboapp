@@ -5,7 +5,7 @@ import GLOBALS from '../Globals';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Button, Input, Loading } from '../components';
-import { Dimensions, Image, Keyboard, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { getModules, loginEmployee } from '../services/employeeService';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useApolloClient } from 'react-apollo';
@@ -25,6 +25,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   function _keyboardDidShow() {
     setShowLicense(0);
@@ -117,9 +118,13 @@ function Login() {
                 placeholder={t('TEXT_PASSWORD')}
                 onChangeText={(password) => setPassword(password)}
                 value={password}
-                secureTextEntry={true}
+                secureTextEntry={secureTextEntry}
+                EndInput={() => (
+                  <TouchableOpacity style={styles.endInputStyle} onPress={() => setSecureTextEntry(!secureTextEntry)}>
+                    <Text style={styles.textEndStyle}>{secureTextEntry ? t('TEXT_SHOW') : t('TEXT_HIDE')}</Text>
+                  </TouchableOpacity>
+                )}
               />
-
               {renderButton()}
             </View>
           </View>
@@ -170,6 +175,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'space-between',
     width: '100%',
+  },
+  endInputStyle: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: '100%',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  textEndStyle: {
+    fontFamily: GLOBALS.FONT_NAME,
+    fontSize: 14,
+    fontWeight: GLOBALS.FONT_BOLD,
+    color: GLOBALS.COLOR_MAIN,
   },
 });
 

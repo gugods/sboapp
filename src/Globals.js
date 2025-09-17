@@ -88,7 +88,7 @@ module.exports = {
       size: 20,
     },
     cancel: {
-      name: 'ban',
+      name: 'close',
       size: 20,
     },
   },

@@ -13,10 +13,15 @@ export const getHeightScroll = () => {
       // < iphone X
       minHeight = 400;
     } else {
-      minHeight = 460;
+      minHeight = 480;
     }
   } else {
-    minHeight = 430;
+    if (maxHeight < 750) {
+      // < iphone X
+      minHeight = 430;
+    } else {
+      minHeight = 480;
+    }
   }
   return maxHeight - minHeight;
 };

@@ -23,7 +23,7 @@ export const Camera = (props) => {
 
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const format = useCameraFormat(device, [{ photoResolution: { width: 1280, height: 720 }, fps: 60 }]);
+  const format = useCameraFormat(device, [{ photoResolution: { width: 1024, height: 720 }, fps: 60 }]);
 
   useEffect(() => {
     if (!hasPermission) {

@@ -4,23 +4,41 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, refs, onFocus, onBlur, multiline, numberOfLines, inputStyle }) => (
+const Input = ({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry,
+  refs,
+  onFocus,
+  onBlur,
+  multiline,
+  numberOfLines,
+  inputStyle,
+  StartInput,
+  EndInput,
+}) => (
   <View style={styles.containerStyle}>
     <Text style={styles.labelStyle}>{label}</Text>
-    <TextInput
-      multiline={multiline}
-      numberOfLines={numberOfLines}
-      value={value}
-      onChangeText={onChangeText}
-      style={[styles.inputStyle, inputStyle]}
-      autoCorrect={false}
-      placeholder={placeholder}
-      secureTextEntry={secureTextEntry}
-      underlineColorAndroid='transparent'
-      ref={refs}
-      onBlur={onBlur}
-      onFocus={onFocus}
-    />
+    <View style={styles.textInputStyle}>
+      {StartInput && <StartInput />}
+      <TextInput
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+        value={value}
+        onChangeText={onChangeText}
+        style={[styles.inputStyle, inputStyle]}
+        autoCorrect={false}
+        placeholder={placeholder}
+        secureTextEntry={secureTextEntry}
+        underlineColorAndroid='transparent'
+        ref={refs}
+        onBlur={onBlur}
+        onFocus={onFocus}
+      />
+      {EndInput && <EndInput />}
+    </View>
   </View>
 );
 
@@ -45,8 +63,11 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     marginLeft: 5,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
+  textInputStyle: {
+    position: 'relative',
+  },
 });
 
 Input.propTypes = {
@@ -60,7 +81,7 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   multiline: PropTypes.bool,
   numberOfLines: PropTypes.number,
-  inputStyle: PropTypes.object
+  inputStyle: PropTypes.object,
 };
 
 export { Input };
