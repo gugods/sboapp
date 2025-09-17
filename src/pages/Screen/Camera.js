@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     position: 'absolute',
-    bottom: 15,
+    bottom: 50,
     alignSelf: 'center',
     margin: 20,
     backgroundColor: GLOBALS.COLOR_BLACK,
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   buttonFlash: {
     backgroundColor: 'rgba(0,0,0,0.7)',
     position: 'absolute',
-    top: 5,
-    left: 5,
+    top: 10,
+    left: 10,
     zIndex: 9,
     width: 50,
     height: 50,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   buttonImage: {
     backgroundColor: 'rgba(0,0,0,0.7)',
     position: 'absolute',
-    bottom: 10,
+    bottom: 50,
     right: 10,
     zIndex: 9,
     width: 50,
