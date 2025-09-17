@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary } from 'react-native-image-picker';
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Camera as VisionCamera, useCameraPermission, useCameraDevice, useCameraFormat } from 'react-native-vision-camera';
 
@@ -22,8 +22,14 @@ export const Camera = (props) => {
   const [loading, setLoading] = useState(false);
 
   const device = useCameraDevice('back');
-  const { hasPermission } = useCameraPermission();
-  const format = useCameraFormat(device, [{ photoResolution: { width: 1280, height: 720 } }]);
+  const { hasPermission, requestPermission } = useCameraPermission();
+  const format = useCameraFormat(device, [{ photoResolution: { width: 1280, height: 720 }, fps: 60 }]);
+
+  useEffect(() => {
+    if (!hasPermission) {
+      requestPermission();
+    }
+  }, [hasPermission]);
 
   const takePicture = async () => {
     if (camera?.current) {

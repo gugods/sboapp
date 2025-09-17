@@ -75,10 +75,12 @@ class SideMenu extends Component {
       if (value) {
         return submenu?.length ? (
           <>
-            <View style={styles.navItem}>
-              <Icon style={styles.iconItem} name={value.icon} size={25} />
-              <Text style={styles.textItem}> {t(value.name)}</Text>
-            </View>
+            <TouchableOpacity key={key} onPress={() => this.navigateToScreen(item)}>
+              <View style={styles.navItem}>
+                <Icon style={styles.iconItem} name={value.icon} size={25} />
+                <Text style={styles.textItem}> {t(value.name)}</Text>
+              </View>
+            </TouchableOpacity>
             {this.renderSubmenu(submenu)}
           </>
         ) : (

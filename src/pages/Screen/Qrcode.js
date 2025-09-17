@@ -1,7 +1,7 @@
 // src/pages/Screen/Qrcode.js
 import PropTypes from 'prop-types';
 import { Camera as VisionCamera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -26,7 +26,13 @@ export const Qrcode = (props) => {
   const scanFirst = useRef(true);
   const scanner = useRef(true);
   const device = useCameraDevice('back');
-  const { hasPermission } = useCameraPermission();
+  const { hasPermission, requestPermission } = useCameraPermission();
+
+  useEffect(() => {
+    if (!hasPermission) {
+      requestPermission();
+    }
+  }, [hasPermission]);
 
   const onCodeScanned = useCallback(
     (codes) => {

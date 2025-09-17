@@ -7,6 +7,7 @@
     "start": "react-native start",
     "test": "jest",
     "ios": "react-native run-ios --simulator \"iPhone 11\"",
+    "iphone": "react-native run-ios",
     "iphone6": "react-native run-ios --simulator \"iPhone 6\"",
     "iphone8plus": "react-native run-ios --simulator \"iPhone 8 Plus\"",
     "iphone11": "react-native run-ios --simulator \"iPhone 11\"",
