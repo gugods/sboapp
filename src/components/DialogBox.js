@@ -4,8 +4,10 @@ import GLOBALS from '../Globals';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Linking, Platform, StyleSheet, Text, View } from 'react-native';
+import { Linking, Platform, StyleSheet, Text, View, Appearance } from 'react-native';
 import { withDialog } from '../libraries';
+
+const colorScheme = Appearance.getColorScheme();
 
 class DialogBox extends React.Component {
   constructor(props) {
@@ -91,19 +93,7 @@ class DialogBox extends React.Component {
     const { dialogStore } = this.props;
     return (
       <View>
-        <Dialog.Container
-          headerStyle={styles.headerStyle}
-          contentStyle={styles.contentStyle}
-          visible={dialogStore.visible}
-          useNativeDriver={true}
-
-          // dialogAnimation={
-          //   new ScaleAnimation({
-          //     toValue: 0, // optional
-          //     useNativeDriver: true, // optional
-          //   })
-          // }
-        >
+        <Dialog.Container headerStyle={styles.headerStyle} contentStyle={styles.contentStyle} visible={dialogStore.visible} useNativeDriver={true}>
           {this.renderTitle()}
           <Dialog.Description style={{ ...styles.descStyle }}>
             <Text style={styles.descTextStyle}>{dialogStore.message}</Text>
@@ -148,14 +138,14 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 14,
     fontFamily: GLOBALS.FONT_NAME,
-    color: GLOBALS.COLOR_DESC,
+    color: colorScheme === 'dark' ? GLOBALS.COLOR_GRAY2 : GLOBALS.COLOR_DESC,
   },
   footerStyle: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
     borderTopWidth: 1,
-    borderTopColor: GLOBALS.COLOR_GRAY,
+    borderTopColor: colorScheme === 'dark' ? GLOBALS.COLOR_THEAD : GLOBALS.COLOR_GRAY2,
     paddingBottom: 6,
   },
   buttonStyle: {
@@ -176,9 +166,8 @@ const styles = StyleSheet.create({
   },
   buttonTextCancel: {
     color: GLOBALS.COLOR_CANCEL,
-    opacity: 0.7,
     borderRightWidth: 1,
-    borderRightColor: GLOBALS.COLOR_GRAY,
+    borderRightColor: colorScheme === 'dark' ? GLOBALS.COLOR_THEAD : GLOBALS.COLOR_GRAY2,
   },
 });
 

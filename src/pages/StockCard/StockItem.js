@@ -133,7 +133,7 @@ class StockItem extends Component {
     const txtColor = value.stock_inout === IN ? GLOBALS.COLOR_SUCCESS : GLOBALS.COLOR_ERROR;
     const stock_date = moment(value.stock_date).format('DD-MM-YYYY');
     const stock_status = getTextStatusPending(value.stock_status);
-    const txtColorStatus = stock_status === STATUS_COMPLETED ? GLOBALS.COLOR_SUCCESS : GLOBALS.COLOR_PEDING;
+    const txtColorStatus = stock_status === STATUS_COMPLETED ? GLOBALS.COLOR_SUCCESS : GLOBALS.COLOR_PENDING;
     return (
       <Table.Tbody
         key={index}

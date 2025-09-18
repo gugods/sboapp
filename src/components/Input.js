@@ -31,6 +31,7 @@ const Input = ({
         style={[styles.inputStyle, inputStyle]}
         autoCorrect={false}
         placeholder={placeholder}
+        placeholderTextColor={GLOBALS.COLOR_PLACEHOLDER}
         secureTextEntry={secureTextEntry}
         underlineColorAndroid='transparent'
         ref={refs}

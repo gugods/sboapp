@@ -9,7 +9,7 @@ const IconStatus = ({ status, size }) => {
   if (status) {
     return <Icon name='alert-circle' size={size} color={GLOBALS.COLOR_SUCCESS} />;
   } else if (status === false) {
-    return <Icon name='alert-circle' size={size} color={GLOBALS.COLOR_PEDING} />;
+    return <Icon name='alert-circle' size={size} color={GLOBALS.COLOR_PENDING} />;
   } else {
     return <Icon name='alert-circle' size={size} color={GLOBALS.COLOR_GRAY2} />;
   }
@@ -17,7 +17,7 @@ const IconStatus = ({ status, size }) => {
 
 IconStatus.propTypes = {
   status: PropTypes.bool,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 export { IconStatus };
