@@ -5,6 +5,7 @@ import GLOBALS from '../../Globals';
 import React, { useEffect, useRef } from 'react';
 // import { Alert } from 'react-native';
 import { useNotificationContext } from '../StoreContext';
+import { Platform } from 'react-native';
 
 function Notification() {
   const notificationStore = useNotificationContext();
@@ -27,10 +28,18 @@ function Notification() {
         //Alert.alert(t('ALERT_ERROR'), error.message);
       }
 
-      // getToken
-      const fcmToken = await messaging().getToken();
-      if (fcmToken) {
-        messaging().subscribeToTopic('all');
+      try {
+        if (Platform.OS === 'ios') {
+          await messaging().registerDeviceForRemoteMessages();
+        }
+
+        // getToken
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+          messaging().subscribeToTopic('all');
+        }
+      } catch (error) {
+        // console.log('getToken::', error);
       }
 
       // onNotification
