@@ -1836,6 +1836,34 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
+  - react-native-compressor (1.12.0):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - react-native-date-picker (4.4.2):
     - boost
     - DoubleConversion
@@ -2702,6 +2730,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - react-native-compressor (from `../node_modules/react-native-compressor`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
@@ -2851,6 +2880,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-compressor:
+    :path: "../node_modules/react-native-compressor"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
   react-native-image-picker:
@@ -3001,6 +3032,7 @@ SPEC CHECKSUMS:
   React-logger: 1767babce2d28c3251039ce05556714a2c8c6ded
   React-Mapbuffer: 33f678ee25b6c0ee2b01b1ecec08e3e02424cefe
   React-microtasksnativemodule: 44b44a4d3cd6ffb85d928abf741acdc26722de2e
+  react-native-compressor: b49eaabc10d060eb406880e9db31ddf481553b93
   react-native-date-picker: 75f45f353668949d9fad938ea68d638fe86b01b8
   react-native-image-picker: 9665511bb624306115691f50adf0435b92e32db8
   react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517

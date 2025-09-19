@@ -98,7 +98,13 @@ class DialogBox extends React.Component {
           <Dialog.Description style={{ ...styles.descStyle }}>
             <Text style={styles.descTextStyle}>{dialogStore.message}</Text>
           </Dialog.Description>
-          {dialogStore.visible && this.renderButton()}
+          {dialogStore.visible ? (
+            this.renderButton()
+          ) : (
+            <View style={{ ...styles.footerStyle }}>
+              <Dialog.Button color={styles.buttonTextError.color} style={{ ...styles.buttonStyle }} />
+            </View>
+          )}
         </Dialog.Container>
       </View>
     );

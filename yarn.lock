@@ -7324,6 +7324,11 @@ react-native-checkbox@^2.0.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-compressor@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.12.0.tgz#4c387f100ec6d98adbee10c22496d0e42397d8bf"
+  integrity sha512-NMAYpXnTLwx/KecwlLF+9Dnrn/tKV5UVfta8Lk9eROsb05JYnUoKLprRzSSpHcyLjIdQAVaTtx2lPYsappMezw==
+
 react-native-date-picker@^4.3.3:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.4.2.tgz#f7bb9daa8559237e08bd30f907ee8487a6e2a6ec"

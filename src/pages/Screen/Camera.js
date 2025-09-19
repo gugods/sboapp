@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Camera as VisionCamera, useCameraPermission, useCameraDevice, useCameraFormat } from 'react-native-vision-camera';
+import { Image as ImageCompressor } from 'react-native-compressor';
 
 const FlashMode = { ON: 'on', OFF: 'off' };
 
@@ -23,7 +24,12 @@ export const Camera = (props) => {
 
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const format = useCameraFormat(device, [{ photoResolution: { width: 1024, height: 720 }, fps: 60 }]);
+  const format = useCameraFormat(device, [
+    {
+      photoResolution: { width: 1920, height: 1280 },
+      fps: 60,
+    },
+  ]);
 
   useEffect(() => {
     if (!hasPermission) {
@@ -38,7 +44,15 @@ export const Camera = (props) => {
       const data = await camera.current.takePhoto();
       setLoading(false);
 
-      navigation.state.params.onBackCamera({ item_file: 'file://' + data.path, item_index });
+      const path = data.path.indexOf('file://') !== -1 ? data.path : 'file://' + data.path;
+      const uri = await ImageCompressor.compress(path, {
+        compressionMethod: 'auto',
+        maxWidth: 600,
+        quality: 1,
+        disablePngTransparency: true,
+        output: 'jpg',
+      });
+      navigation.state.params.onBackCamera({ item_file: uri, item_index });
       navigation.goBack();
     }
   };
@@ -91,7 +105,16 @@ export const Camera = (props) => {
       <TouchableOpacity onPress={onTurnFlash} style={styles.buttonFlash}>
         <Icon name='flash' size={25} style={{ color: '#ffffff' }} />
       </TouchableOpacity>
-      <VisionCamera ref={camera} style={StyleSheet.absoluteFill} device={device} isActive={true} photo={true} format={format} torch={flashMode} />
+      <VisionCamera
+        ref={camera}
+        style={StyleSheet.absoluteFill}
+        device={device}
+        isActive={true}
+        photo={true}
+        format={format}
+        torch={flashMode}
+        enableZoomGesture={true}
+      />
       <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
         <View style={styles.buttonStyle}>
           {loading ? (
