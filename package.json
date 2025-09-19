@@ -17,7 +17,8 @@
     "ipad12": "react-native run-ios --simulator \"iPad Pro 12.9\"",
     "android": "react-native run-android",
     "android-clean": "./gradlew clean",
-    "android-assembleRelease": "./gradlew app:assembleRelease"
+    "android-assembleRelease": "./gradlew app:assembleRelease",
+    "ios-build": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.4",
