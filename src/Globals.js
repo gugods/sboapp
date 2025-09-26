@@ -1,11 +1,11 @@
 let SERVER_API = '';
 let MANUAL_URL = '';
 if (process.env.NODE_ENV === 'test') {
-  SERVER_API = 'http://192.168.2.43:90/sboplus/graphql';
-  MANUAL_URL = 'http://192.168.2.43/sboplus/web_manual';
+  SERVER_API = 'http://192.168.2.34:90/sboplus/graphql';
+  MANUAL_URL = 'http://192.168.2.34/sboplus/web_manual';
 } else if (process.env.NODE_ENV === 'development') {
-  SERVER_API = 'http://192.168.2.43:90/sboplus/graphql';
-  MANUAL_URL = 'http://192.168.2.43/sboplus/web_manual';
+  SERVER_API = 'http://192.168.2.34:90/sboplus/graphql';
+  MANUAL_URL = 'http://192.168.2.34/sboplus/web_manual';
 } else if (process.env.NODE_ENV === 'production') {
   SERVER_API = 'http://sboplus.info/graphql';
   MANUAL_URL = 'http://sboplus.info/web_manual';

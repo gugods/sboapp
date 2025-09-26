@@ -35,6 +35,7 @@ function Notification() {
 
         // getToken
         const fcmToken = await messaging().getToken();
+        //console.log('fcmToken::', fcmToken);
         if (fcmToken) {
           messaging().subscribeToTopic('all');
         }
