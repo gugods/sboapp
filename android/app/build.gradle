@@ -83,7 +83,7 @@ android {
         applicationId "com.sboplus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 259
+        versionCode 260
         versionName "2.5.9"
     }
     signingConfigs {
